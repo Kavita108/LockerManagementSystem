@@ -3,3 +3,5 @@
 ################################################################################
 
 /LockerManagementSystem/bin/Debug/netcoreapp2.1
+/LockerManagementSystem/obj
+/.vs/LockerManagementSystem

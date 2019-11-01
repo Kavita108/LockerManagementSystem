@@ -6,19 +6,20 @@ namespace LockerManagementSystem
     {
         static void Main(string[] args)
         {
-            // instance of class (Locker) = = object
-            var locker = new Locker
-            {
-                LockerType = "Checking",
-                LockerSize = "small",
-               // LockerNumber = 1234,
-                //NumberOfLockers = 1,
-                //ArrivalTime = 2,
-                //ArrivalDate = 1,
-                Duration = 3
-            };
+            //object intialization
+            //instance of class (Locker) = = object
 
-            Console.WriteLine(locker.LockerType);
+            var locker = LockerManager.OpenLocker("test@test.com", LockerSize.Medium);
+           
+
+            
+            /* String Interapolation*/
+            Console.WriteLine($" LS: {locker.LockerSize} , EA: {locker.EmailAddress}, CD: {locker.CheckingDate}, LN: {locker.LockerNumber}");
+
+            var locker2 = LockerManager.OpenLocker("test1@test.com", LockerSize.Small);
+            Console.WriteLine($" LS: {locker2.LockerSize} , EA: {locker2.EmailAddress}, CD: {locker2.CheckingDate}, LN: {locker2.LockerNumber}");
+
+            
         }
     }
 }
