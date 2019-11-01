@@ -10,8 +10,6 @@ namespace LockerManagementSystem
         Medium,
         Large,
         XtraLarge
-
-
     }
     /// <summary>
     /// This is a TravelLockerManagementSystem
@@ -65,9 +63,7 @@ namespace LockerManagementSystem
         /// </summary>
         public int NumberOfLockers { get; set; }
         #endregion
-        #region Constructors
-
-        
+        #region Constructors        
         public Locker()
         {
             /// <summary>

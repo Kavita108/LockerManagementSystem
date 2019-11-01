@@ -6,7 +6,7 @@ namespace LockerManagementSystem
 {
     static  class LockerManager
     {
-        public static Locker OpenLocker(string emailAddress, LockerSize lockerSize)
+        public static Locker GetLocker(string emailAddress, LockerSize lockerSize)
         {
             var locker = new Locker
             {
@@ -14,6 +14,7 @@ namespace LockerManagementSystem
                 LockerSize = lockerSize
             };
 
+            
             return locker;
         }
     }
