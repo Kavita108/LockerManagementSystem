@@ -6,7 +6,7 @@ namespace LockerManagementSystem
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("**************WELCOME! * ************");
+            Console.WriteLine("**************  WELCOME! **************");
             while (true)
             {
                 Console.WriteLine("0.Exit");
@@ -21,9 +21,24 @@ namespace LockerManagementSystem
                 switch (option)
                 {
                     case "0":
-                        Console.WriteLine("Thankyou For Visiting");
+                        Console.WriteLine("Thankyou For Visiting !");
                         return;
                     case "1":
+                        Console.Write("Email Address : ");
+                        var email = Console.ReadLine();
+                        Console.WriteLine("LockerSize : ");
+                        //convert enum to array
+                        var sizeOfLockers = Enum.GetNames(typeof(LockerSize));
+                        for (var i = 0; i < sizeOfLockers.Length; i++)
+                        {
+                            //loop through the array and print out
+                            Console.WriteLine($"{i}.{sizeOfLockers[i]}");
+                        }
+                        var sizeOfLocker = Enum.Parse<LockerSize>(Console.ReadLine());
+
+                        var locker = LockerManager.GetLocker(email, sizeOfLocker);
+                        Console.WriteLine($"EA: {locker.EmailAddress}, CD: {locker.CheckInDate}, LS: {locker.LockerSize}, LN: {locker.LockerID}");
+
                         break;
                     case "2":
                         break;
