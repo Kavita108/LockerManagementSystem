@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LockerManagementSystem
 {
-    enum LockerSize
+    public enum LockerSize
     {
         Small,
         Medium,
@@ -15,7 +15,7 @@ namespace LockerManagementSystem
     /// This is a TravelLockerManagementSystem
     /// where user can drop and pick luggage from it
     /// </summary>
-    class Locker
+    public class Locker
     {
         //Declaring variable
         private static int lastLockerID = 0;
@@ -42,7 +42,7 @@ namespace LockerManagementSystem
         /// defines creation date and time for locker
         /// this should be created by owner so the set property is private
         /// </summary>
-        public DateTime CheckInDate { get; private set; }
+        public DateTime CheckInDate { get; set; }
 
         /// <summary>
         /// defines the number of hours user need that locker for
@@ -54,6 +54,12 @@ namespace LockerManagementSystem
         /// defines the total number of lockers needed for luggage storage
         /// </summary>
         public int NumberOfLockers { get; set; }
+
+        /// <summary>
+        /// Defines price of a locker
+        /// </summary>
+        
+        public int Price { get; set; }
         #endregion
         #region Constructors        
         public Locker()
@@ -76,6 +82,19 @@ namespace LockerManagementSystem
         }
         #endregion
         #region Methods
+        /// <summary>
+        /// Deposit luggage into the locker
+        /// </summary>
+        /// <param name="Bag"></param>
+        public void Drop(string Bag)
+        {
+        }
+
+        public void Pick(string Bag)
+        {
+        }
         #endregion
+
+       
     }
 }

@@ -7,6 +7,7 @@ namespace LockerManagementSystem
         static void Main(string[] args)
         {
             Console.WriteLine("**************  WELCOME! **************");
+            var lockerManager = new LockerManager();
             while (true)
             {
                 Console.WriteLine("0.Exit");
@@ -35,9 +36,8 @@ namespace LockerManagementSystem
                             Console.WriteLine($"{i}.{sizeOfLockers[i]}");
                         }
                         var sizeOfLocker = Enum.Parse<LockerSize>(Console.ReadLine());
-
-                        var locker = LockerManager.GetLocker(email, sizeOfLocker);
-                        Console.WriteLine($"EA: {locker.EmailAddress}, CD: {locker.CheckInDate}, LS: {locker.LockerSize}, LN: {locker.LockerID}");
+                        var locker = lockerManager.GetLocker(email, sizeOfLocker);
+                        Console.WriteLine($"EA: {locker.EmailAddress}, CD: {locker.CheckInDate}, LS: {locker.LockerSize}, LID3cw222222w: {locker.LockerID}");
 
                         break;
                     case "2":
@@ -47,6 +47,13 @@ namespace LockerManagementSystem
                     case "4":
                         break;
                     case "5":
+                        Console.WriteLine("Email Address: ");
+                        var emailAddress = Console.ReadLine();
+                        var lockers = lockerManager.GetAllLockersByEmailAddress(emailAddress);
+                        foreach (var mylocker in lockers)
+                        {
+                            Console.WriteLine($"EA: {mylocker.EmailAddress}, CD: {mylocker.CheckInDate}, LS: {mylocker.LockerSize}, LID: {mylocker.LockerID}");
+                        }
                         break;
                     default:
                         Console.WriteLine("Please select a valid option !");
