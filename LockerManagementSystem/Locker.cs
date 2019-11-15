@@ -42,24 +42,14 @@ namespace LockerManagementSystem
         /// defines creation date and time for locker
         /// this should be created by owner so the set property is private
         /// </summary>
-        public DateTime CheckInDate { get; set; }
+        public DateTime? CheckInDate { get; set; }
 
         /// <summary>
-        /// defines the number of hours user need that locker for
+        /// defines if user has paid for the locker or not
         /// </summary>
-        public int Duration { get; set; }
+        public bool Paid { get; set; }
 
-        
-        /// <summary>
-        /// defines the total number of lockers needed for luggage storage
-        /// </summary>
-        public int NumberOfLockers { get; set; }
 
-        /// <summary>
-        /// Defines price of a locker
-        /// </summary>
-        
-        public int Price { get; set; }
         #endregion
         #region Constructors        
         public Locker()
