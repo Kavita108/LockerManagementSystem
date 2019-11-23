@@ -1,140 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LockerManagementSystem
 {
     public class LockerManager
     {
-        //declaring the constant value
-        private const int SMALL_LOCKERS_COUNT = 500;
-        private const int MEDIUM_LOCKERS_COUNT = 500;
-        private const int LARGE_LOCKERS_COUNT = 500;
-        private const int XLARGE_LOCKERS_COUNT = 500;
-
-        //creating a temporary empty list of Availablelockers
-        private  List<Locker> smallAvailableLockers = new List<Locker>();
-        private  List<Locker> mediumAvailableLockers = new List<Locker>();
-        private  List<Locker> largeAvailableLockers = new List<Locker>();
-        private  List<Locker> xLargeAvailableLockers = new List<Locker>();
-
-        //creating a temporary empty list of UnAvailablelockers
-        private IDictionary<int, Locker> checkedoutLockers = new Dictionary<int, Locker>();
-        private List<Locker> smallCheckedoutLockers = new List<Locker>();
-        private List<Locker> mediumCheckedoutLockers = new List<Locker>();
-        private List<Locker> largeCheckedoutLockers = new List<Locker>();
-        private List<Locker> xLargeCheckedoutLockers = new List<Locker>();
+        
+        private LockerContext db = new LockerContext();
 
         //creating constructor 
         #region Constructor
         public LockerManager()
         {
-            for (int i = 0; i < SMALL_LOCKERS_COUNT; i++)
+            /*for (int i = 0; i < SMALL_LOCKERS_COUNT; i++)
             {
-                smallAvailableLockers.Add(new Locker { LockerSize = LockerSize.Small });
+                db.Lockers.Add(new Locker { LockerSize = LockerSize.Small });
             }
 
             for (int i = 0; i < MEDIUM_LOCKERS_COUNT; i++)
             {
-                mediumAvailableLockers.Add(new Locker { LockerSize = LockerSize.Medium });
+                db.Lockers.Add(new Locker { LockerSize = LockerSize.Medium });
             }
 
             for (int i = 0; i < LARGE_LOCKERS_COUNT; i++)
             {
-                largeAvailableLockers.Add(new Locker { LockerSize = LockerSize.Large });
+                db.Lockers.Add(new Locker { LockerSize = LockerSize.Large });
             }
 
             for (int i = 0; i < XLARGE_LOCKERS_COUNT; i++)
             {
-                xLargeAvailableLockers.Add(new Locker { LockerSize = LockerSize.XtraLarge });
+                db.Lockers.Add(new Locker { LockerSize = LockerSize.XtraLarge });
             }
+
+            db.SaveChanges();*/
         }
         #endregion
 
         public bool IsLockerAvailable(LockerSize lockerSize)
         {
-            switch (lockerSize)
-            {
-                case LockerSize.Small:
-                    return smallAvailableLockers.Count() > 0;
-
-                case LockerSize.Medium:
-                    return mediumAvailableLockers.Count() > 0;
-                    
-                case LockerSize.Large:
-                    return largeAvailableLockers.Count() > 0;
-
-                case LockerSize.XtraLarge:
-                    return xLargeAvailableLockers.Count() > 0;
-
-                default:
-                    return false;
-            }
+            var query = from l in db.Lockers
+                        where l.LockerSize == lockerSize
+                        && l.EmailAddress == null && l.CheckInDate == null
+                        select l;
+            return query.Count() > 0;
         }
 
         public Locker GetLocker(LockerSize lockerSize)
         {
-            switch (lockerSize)
-            {
-                case LockerSize.Small:
-                    if (smallAvailableLockers.Count() > 0)
-                    {
-                        Locker sl = smallAvailableLockers.First();
-                        smallAvailableLockers.Remove(sl);
-                        smallCheckedoutLockers.Add(sl);
-
-                        return sl;
-                    } else
-                    {
-                        return null;
-                    }
-
-                case LockerSize.Medium:
-                    if (mediumAvailableLockers.Count() > 0)
-                    {
-                        Locker ml = mediumAvailableLockers.First();
-                        mediumAvailableLockers.Remove(ml);
-                        mediumCheckedoutLockers.Add(ml);
-
-                        return ml;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-
-                case LockerSize.Large:
-                    if (largeAvailableLockers.Count() > 0)
-                    {
-                        Locker ll = largeAvailableLockers.First();
-                        largeAvailableLockers.Remove(ll);
-                        largeCheckedoutLockers.Add(ll);
-
-                        return ll;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-
-                case LockerSize.XtraLarge:
-                    if (xLargeAvailableLockers.Count() > 0)
-                    {
-                        Locker xll = xLargeAvailableLockers.First();
-                        xLargeAvailableLockers.Remove(xll);
-                        xLargeCheckedoutLockers.Add(xll);
-
-                        return xll;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-
-                default:
-                    return null;
-            }
+            var query = from l in db.Lockers
+                        where l.LockerSize == lockerSize
+                        && l.EmailAddress == null && l.CheckInDate == null
+                        select l;
+            return query.FirstOrDefault<Locker>();
         }
 
         /// <summary>
@@ -164,13 +82,11 @@ namespace LockerManagementSystem
         //creating filtered list of lockers that match to emailaddress
         public IList<Locker> GetAllLockersByEmailAddress(String emailAddress)
         {
-            //using LINQ and LAMBDA to get filtered list
-            IList<Locker> smallLockers = smallCheckedoutLockers.Where(l => l.EmailAddress == emailAddress).ToList();
-            IList<Locker> mediumLockers = mediumCheckedoutLockers.Where(l => l.EmailAddress == emailAddress).ToList();
-            IList<Locker> largeLockers = largeCheckedoutLockers.Where(l => l.EmailAddress == emailAddress).ToList();
-            IList<Locker> xlargeLockers = xLargeCheckedoutLockers.Where(l => l.EmailAddress == emailAddress).ToList();
+            var query = from l in db.Lockers
+                        where l.EmailAddress == emailAddress
+                        select l;
 
-            return smallLockers.Concat(mediumLockers).Concat(largeLockers).Concat(xlargeLockers).ToList();
+            return query.ToList<Locker>();
         }
 
         //dropping bag
@@ -185,18 +101,19 @@ namespace LockerManagementSystem
             int price = GetHourlyPrice(lockerSize) * hours;
             if (amount < price)
             {
-                return null;
+                throw new Exception("Amount is less than the locker price");
             }
 
             if (PaymentSystem.MakePayment(price))
             {
                 l.Paid = true;
                 l.EmailAddress = emailAddress;
-                l.CheckInDate = new DateTime();
+                l.CheckInDate = DateTime.Now;
+                db.SaveChanges();
                 return l;
             } else
             {
-                return null;
+                throw new Exception("Payment failed");
             }
         }
 
@@ -210,37 +127,12 @@ namespace LockerManagementSystem
 
             foreach( var locker in lockers )
             {
-                locker.EmailAddress = string.Empty;
+                locker.EmailAddress = null;
                 locker.CheckInDate = null;
                 locker.Paid = false;
-
-                switch (locker.LockerSize)
-                {
-                    case LockerSize.Small:
-                        smallCheckedoutLockers.Remove(locker);
-                        smallAvailableLockers.Add(locker);
-                        break;
-
-                    case LockerSize.Medium:
-                        mediumCheckedoutLockers.Remove(locker);
-                        mediumAvailableLockers.Add(locker);
-                        break;
-
-                    case LockerSize.Large:
-                        largeCheckedoutLockers.Remove(locker);
-                        largeAvailableLockers.Add(locker);
-                        break;
-
-                    case LockerSize.XtraLarge:
-                        xLargeCheckedoutLockers.Remove(locker);
-                        xLargeAvailableLockers.Add(locker);
-                        break;
-
-                    default:
-                        break;
-                }
             }
 
+            db.SaveChanges();
             return true;
         }
 

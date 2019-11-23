@@ -8,6 +8,7 @@ namespace LockerManagementSystem
     class LockerContext : DbContext
     {
         public DbSet<Locker> Lockers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Locker>(entity =>
